@@ -1,0 +1,327 @@
+{
+	"info": {
+		"_postman_id": "masi-sentiment-api-v1",
+		"name": "MASI Sentiment API",
+		"description": "Collection complète pour tester l'API de sentiment MASI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "General",
+			"item": [
+				{
+					"name": "Root - API Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": [""]
+						},
+						"description": "Informations générales sur l'API"
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/health",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["health"]
+						},
+						"description": "Vérifier l'état de l'API et la connexion Bloomberg"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints généraux"
+		},
+		{
+			"name": "Sentiment Analysis",
+			"item": [
+				{
+					"name": "Get Current Sentiment (Synthetic)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/sentiment?use_bloomberg=false",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "sentiment"],
+							"query": [
+								{
+									"key": "use_bloomberg",
+									"value": "false",
+									"description": "Utiliser des données synthétiques"
+								}
+							]
+						},
+						"description": "Obtenir le sentiment du jour avec données synthétiques"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current Sentiment (Bloomberg)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/sentiment?use_bloomberg=true",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "sentiment"],
+							"query": [
+								{
+									"key": "use_bloomberg",
+									"value": "true",
+									"description": "Utiliser Bloomberg Terminal"
+								}
+							]
+						},
+						"description": "Obtenir le sentiment du jour avec Bloomberg (nécessite Terminal)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Historical Sentiment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/historical/2024-12-01",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "historical", "2024-12-01"]
+						},
+						"description": "Obtenir le sentiment pour une date spécifique"
+					},
+					"response": []
+				},
+				{
+					"name": "Calculate Sentiment (Custom Data)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"close\": 13500.0,\n  \"open\": 13450.0,\n  \"high\": 13600.0,\n  \"low\": 13400.0,\n  \"volume\": 2200.0,\n  \"volume_avg_20d\": 2000.0,\n  \"advances\": 500,\n  \"declines\": 200,\n  \"unchanged\": 50,\n  \"total_issues\": 750,\n  \"new_highs\": 20,\n  \"new_lows\": 3,\n  \"rsi\": 65.0,\n  \"macd\": 8.0,\n  \"macd_signal\": 5.0,\n  \"stochastic\": 70.0,\n  \"ma_20\": 13400.0,\n  \"ma_50\": 13300.0,\n  \"ma_200\": 13000.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/calculate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "calculate"]
+						},
+						"description": "Calculer le sentiment avec vos propres données"
+					},
+					"response": []
+				},
+				{
+					"name": "Calculate Sentiment (Bullish Scenario)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"close\": 13800.0,\n  \"open\": 13200.0,\n  \"high\": 13850.0,\n  \"low\": 13150.0,\n  \"volume\": 3500.0,\n  \"volume_avg_20d\": 2000.0,\n  \"advances\": 600,\n  \"declines\": 100,\n  \"unchanged\": 50,\n  \"total_issues\": 750,\n  \"new_highs\": 50,\n  \"new_lows\": 2,\n  \"rsi\": 75.0,\n  \"macd\": 15.0,\n  \"macd_signal\": 10.0,\n  \"stochastic\": 85.0,\n  \"ma_20\": 13500.0,\n  \"ma_50\": 13300.0,\n  \"ma_200\": 13000.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/calculate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "calculate"]
+						},
+						"description": "Test avec un scénario très bullish"
+					},
+					"response": []
+				},
+				{
+					"name": "Calculate Sentiment (Bearish Scenario)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"close\": 12500.0,\n  \"open\": 12900.0,\n  \"high\": 12950.0,\n  \"low\": 12450.0,\n  \"volume\": 3000.0,\n  \"volume_avg_20d\": 2000.0,\n  \"advances\": 150,\n  \"declines\": 550,\n  \"unchanged\": 50,\n  \"total_issues\": 750,\n  \"new_highs\": 2,\n  \"new_lows\": 45,\n  \"rsi\": 25.0,\n  \"macd\": -12.0,\n  \"macd_signal\": -8.0,\n  \"stochastic\": 15.0,\n  \"ma_20\": 12800.0,\n  \"ma_50\": 13000.0,\n  \"ma_200\": 13200.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/calculate",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "calculate"]
+						},
+						"description": "Test avec un scénario très bearish"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sentiment Range",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/range?start_date=2024-11-01&end_date=2024-11-30",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "range"],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2024-11-01"
+								},
+								{
+									"key": "end_date",
+									"value": "2024-11-30"
+								}
+							]
+						},
+						"description": "Obtenir les données de sentiment pour une période"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints d'analyse de sentiment"
+		},
+		{
+			"name": "Configuration",
+			"item": [
+				{
+					"name": "Get Configuration",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/config",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "config"]
+						},
+						"description": "Obtenir la configuration des poids et seuils"
+					},
+					"response": []
+				}
+			],
+			"description": "Configuration de l'API"
+		},
+		{
+			"name": "Backtesting",
+			"item": [
+				{
+					"name": "Run Backtest (30 days)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"start_date\": \"2024-11-01\",\n  \"end_date\": \"2024-11-30\",\n  \"entry_threshold\": 30,\n  \"exit_threshold\": -30,\n  \"initial_capital\": 100000,\n  \"position_size\": 1.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/backtest",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "backtest"]
+						},
+						"description": "Lancer un backtest sur 30 jours"
+					},
+					"response": []
+				},
+				{
+					"name": "Run Backtest (90 days - Aggressive)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"start_date\": \"2024-09-01\",\n  \"end_date\": \"2024-11-30\",\n  \"entry_threshold\": 20,\n  \"exit_threshold\": -20,\n  \"initial_capital\": 100000,\n  \"position_size\": 1.0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/backtest",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "backtest"]
+						},
+						"description": "Backtest agressif sur 90 jours"
+					},
+					"response": []
+				},
+				{
+					"name": "Run Backtest (Conservative)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"start_date\": \"2024-10-01\",\n  \"end_date\": \"2024-12-10\",\n  \"entry_threshold\": 50,\n  \"exit_threshold\": -50,\n  \"initial_capital\": 100000,\n  \"position_size\": 0.5\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/backtest",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8000",
+							"path": ["api", "v1", "backtest"]
+						},
+						"description": "Backtest conservateur (50% de capital)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints de backtesting"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
